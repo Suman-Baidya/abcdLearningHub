@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon | ABCD Learning Hub</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #101010;
+            --primary: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            --gradient-main: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+            --gradient-text: linear-gradient(to right, #818cf8, #e879f9, #22d3ee);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            
+            /* Cursor Variables */
+            --cursor-x: 50%;
+            --cursor-y: 50%;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* === INTERACTIVE SPOTLIGHT BACKGROUND === */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--cursor-x) var(--cursor-y), rgba(79, 70, 229, 0.08), transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        /* === CUSTOM CURSOR === */
+        #cursor-dot, #cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        #cursor-dot {
+            width: 8px; height: 8px;
+            background: white;
+        }
+
+        #cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* Active State (Hovering) */
+        body.hovering #cursor-outline {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--secondary);
+            backdrop-filter: blur(2px);
+        }
+
+        /* === TYPOGRAPHY === */
+        h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* === NAV === */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(15px);
+            border-bottom: var(--glass-border); z-index: 1000;
+        }
+        .logo {
+            font-size: 1.5rem; font-weight: 800; background: var(--gradient-text);
+            background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px;
+        }
+        .nav-link-home { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+        .nav-link-home:hover { color: #fff; }
+
+        /* === COMING SOON HERO === */
+        .coming-soon-section {
+            min-height: 85vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 100px 20px;
+            position: relative;
+        }
+
+        .cs-tag {
+            background: rgba(236, 72, 153, 0.1); color: var(--secondary);
+            padding: 8px 16px; border-radius: 50px; font-weight: 600; font-size: 0.9rem;
+            margin-bottom: 25px; border: 1px solid rgba(236, 72, 153, 0.2);
+            display: inline-block;
+        }
+
+        .cs-title {
+            font-size: 4.5rem; margin-bottom: 25px; line-height: 1.1;
+            background: linear-gradient(to bottom, #fff, #999);
+            background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .cs-desc {
+            max-width: 600px; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 50px;
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            display: flex; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; justify-content: center;
+        }
+        .time-box {
+            background: var(--glass-bg); border: var(--glass-border);
+            padding: 25px; border-radius: 20px; width: 110px;
+            display: flex; flex-direction: column; align-items: center;
+            transition: transform 0.3s;
+        }
+        .time-box:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .time-val {
+            font-size: 2.5rem; font-weight: 800; font-family: 'Outfit';
+            background: var(--gradient-text); background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .time-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+        /* === CONTACT & FOOTER === */
+        section { padding: 80px 8%; position: relative; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.5rem; background: var(--gradient-text); background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .contact-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 50px; background: var(--bg-card); border: var(--glass-border); border-radius: 30px; padding: 50px; }
+        .contact-info h3 { margin-bottom: 20px; }
+        .icon-box { width: 40px; height: 40px; background: var(--glass-bg); border-radius: 10px; display: flex; justify-content: center; align-items: center; color: var(--accent); margin-right: 15px; }
+        .contact-item { display: flex; align-items: center; margin-bottom: 20px; }
+        
+        .contact-form { display: grid; gap: 15px; }
+        .form-control { width: 100%; background: var(--bg-dark); border: 1px solid #333; padding: 15px; border-radius: 10px; color: #fff; outline: none; }
+        .form-control:focus { border-color: var(--primary); }
+        .submit-btn { background: var(--gradient-main); border: none; padding: 15px; border-radius: 10px; color: white; font-weight: 700; transition: transform 0.2s; }
+        .submit-btn:hover { transform: scale(1.02); }
+
+        footer { background: #020202; padding: 60px 8% 20px; border-top: 1px solid #111; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 30px; }
+        .footer-links ul li { margin-bottom: 10px; }
+        .footer-links ul li a { color: var(--text-muted); }
+        .footer-bottom { text-align: center; border-top: 1px solid #111; padding-top: 20px; color: #555; }
+
+        @media (max-width: 768px) {
+            .cs-title { font-size: 2.8rem; }
+            .countdown { gap: 15px; }
+            .time-box { width: 80px; padding: 15px; }
+            .time-val { font-size: 1.8rem; }
+            .contact-container { grid-template-columns: 1fr; padding: 30px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            
+            /* Disable custom cursor on mobile */
+            #cursor-dot, #cursor-outline { display: none; }
+            * { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <nav>
+        <div class="logo hover-trigger" id="brand-name"></div>
+        <a href="../index.html" class="nav-link-home hover-trigger">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </nav>
+
+    <div class="coming-soon-section">
+        <div class="cs-tag">🚀 Launching Soon</div>
+        <h1 class="cs-title">We Are Crafting<br>Something Amazing</h1>
+        <p class="cs-desc">We are currently building a world-class curriculum for this course. High-quality video lectures, hands-on projects, and notes are being prepared.</p>
+        
+        <div class="countdown" id="countdown">
+            <div class="time-box hover-trigger">
+                <span class="time-val" id="days">00</span>
+                <span class="time-label">Days</span>
+            </div>
+            <div class="time-box hover-trigger">
+                <span class="time-val" id="hours">00</span>
+                <span class="time-label">Hours</span>
+            </div>
+            <div class="time-box hover-trigger">
+                <span class="time-val" id="minutes">00</span>
+                <span class="time-label">Mins</span>
+            </div>
+            <div class="time-box hover-trigger">
+                <span class="time-val" id="seconds">00</span>
+                <span class="time-label">Secs</span>
+            </div>
+        </div>
+    </div>
+
+    <section id="contact">
+        <div class="section-header">
+            <h2>Have Questions?</h2>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p style="color:var(--text-muted); margin-bottom: 30px;">Can't wait? Call us directly to pre-book your seat for the upcoming batch.</p>
+                <div class="contact-item hover-trigger">
+                    <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                    <div><p style="color:#aaa; font-size:0.8rem;">Call Us</p><h5 id="contact-phone"></h5></div>
+                </div>
+                <div class="contact-item hover-trigger">
+                    <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                    <div><p style="color:#aaa; font-size:0.8rem;">Email Us</p><h5 id="contact-email"></h5></div>
+                </div>
+            </div>
+            <form class="contact-form">
+                <input type="text" class="form-control hover-trigger" placeholder="Your Name">
+                <input type="email" class="form-control hover-trigger" placeholder="Email Address">
+                <textarea rows="4" class="form-control hover-trigger" placeholder="What would you like to know?"></textarea>
+                <button type="button" class="submit-btn hover-trigger">Send Enquiry</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="logo" id="footer-brand"></div>
+                <p style="color:#777; margin-top:15px;">Empowering the next generation of developers.</p>
+            </div>
+            <div class="footer-links">
+                <h4 style="color:white; margin-bottom:20px;">Menu</h4>
+                <ul>
+                    <li><a href="../index.html" class="hover-trigger">Home</a></li>
+                    <li><a href="../index.html#courses" class="hover-trigger">All Courses</a></li>
+                    <li><a href="#contact" class="hover-trigger">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4 style="color:white; margin-bottom:20px;">Connect</h4>
+                <ul style="color:#777;">
+                    <li id="footer-phone" class="hover-trigger"></li>
+                    <li id="footer-email" class="hover-trigger"></li>
+                    <li>West Bengal, India</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ABCD Learning Hub. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================
+        // 1. DATA SOURCE
+        // ============================
+        const siteData = {
+            brand: "ABCD Learning Hub",
+            contact: {
+                phone: "8944899747",
+                email: "sb.abcd321@gmail.com"
+            }
+        };
+
+        document.getElementById('brand-name').textContent = siteData.brand;
+        document.getElementById('footer-brand').textContent = siteData.brand;
+        document.getElementById('contact-phone').textContent = siteData.contact.phone;
+        document.getElementById('contact-email').textContent = siteData.contact.email;
+        document.getElementById('footer-phone').textContent = siteData.contact.phone;
+        document.getElementById('footer-email').textContent = siteData.contact.email;
+
+        // ============================
+        // 2. FUN CURSOR & SPOTLIGHT LOGIC
+        // ============================
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+
+        window.addEventListener("mousemove", function (e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // 1. Move Dot (Instant)
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // 2. Move Outline (Animated/Lagged)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+
+            // 3. Move Background Spotlight CSS Variables
+            document.documentElement.style.setProperty('--cursor-x', `${posX}px`);
+            document.documentElement.style.setProperty('--cursor-y', `${posY}px`);
+        });
+
+        // Hover Effect on interactive elements
+        const hoverElements = document.querySelectorAll('.hover-trigger, a, button, input, textarea');
+        
+        hoverElements.forEach(el => {
+            el.addEventListener("mouseenter", () => {
+                document.body.classList.add("hovering");
+            });
+            el.addEventListener("mouseleave", () => {
+                document.body.classList.remove("hovering");
+            });
+        });
+
+        // ============================
+        // 3. COUNTDOWN TIMER
+        // ============================
+        const launchDate = new Date();
+        launchDate.setDate(launchDate.getDate() + 15); 
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+    </script>
+</body>
+</html>
